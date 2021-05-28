@@ -6,6 +6,6 @@
 
 Пользователь, после запуска playbook должен увидеть на своей машине по адресам:
 
- • https://jenkins.example.com – саму сборку. Вход на Jenkins без авторизации.
+ • https://jenkins.example.com – саму сборку. Вход на Jenkins без авторизации;
 
  • https://nexus.example.com – артефакт сборки из Jenkins. Вход в Nexus без авторизации.
