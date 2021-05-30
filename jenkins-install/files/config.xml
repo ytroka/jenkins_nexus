@@ -1,0 +1,86 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.40">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.8.4"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.8.4">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.92">
+    <script>pipeline {
+    agent {
+        label &quot;master&quot;
+    }
+    tools {
+        maven &quot;Maven&quot;
+    }
+    environment {
+        NEXUS_VERSION = &quot;nexus3&quot;
+        NEXUS_PROTOCOL = &quot;http&quot;
+        NEXUS_URL = &quot;nexus:8081&quot;
+        NEXUS_REPOSITORY = &quot;maven-snapshots&quot;
+        NEXUS_CREDENTIAL_ID = &quot;Anonymous&quot;
+    }
+    stages {
+        stage(&quot;Clone code from VCS&quot;) {
+            steps {
+                script {
+                    git &apos;https://github.com/ytroka/maven-hello-world.git&apos;;
+                }
+            }
+        }
+        stage(&quot;Maven Build&quot;) {
+            steps {
+                script {
+                    sh &quot;mvn package -DskipTests=true&quot;
+                }
+            }
+        }
+        stage(&quot;Publish to Nexus Repository Manager&quot;) {
+            steps {
+                script {
+                    pom = readMavenPom file: &quot;pom.xml&quot;;
+                    filesByGlob = findFiles(glob: &quot;target/*.${pom.packaging}&quot;);
+                    echo &quot;${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}&quot;
+                    artifactPath = filesByGlob[0].path;
+                    artifactExists = fileExists artifactPath;
+                    if(artifactExists) {
+                        echo &quot;*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}&quot;;
+                        nexusArtifactUploader(
+                            nexusVersion: NEXUS_VERSION,
+                            protocol: NEXUS_PROTOCOL,
+                            nexusUrl: NEXUS_URL,
+                            groupId: pom.groupId,
+                            version: pom.version,
+                            repository: NEXUS_REPOSITORY,
+                            credentialsId: NEXUS_CREDENTIAL_ID,
+                            artifacts: [
+                                [artifactId: pom.artifactId,
+                                classifier: &apos;&apos;,
+                                file: artifactPath,
+                                type: pom.packaging],
+                                [artifactId: pom.artifactId,
+                                classifier: &apos;&apos;,
+                                file: &quot;pom.xml&quot;,
+                                type: &quot;pom&quot;]
+                            ]
+                        );
+                    } else {
+                        error &quot;*** File: ${artifactPath}, could not be found&quot;;
+                    }
+                }
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
