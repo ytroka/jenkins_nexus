@@ -78,3 +78,6 @@
     src: config.xml
     headers:
       Content-Type: application/xml 
+
+- name: Start job
+  shell: 'docker exec jenkins java -jar /var/jenkins_home/jenkins-cli.jar -s http://localhost:8080/ build jenkins-nexus'

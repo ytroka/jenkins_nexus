@@ -3,7 +3,7 @@ import jenkins.model.*;
 import hudson.*;
 import hudson.model.*;
 
-mavenName = "maven"
+mavenName = "Maven"
 mavenVersion = "3.8.1"
 println("Checking Maven installations...")
 
@@ -19,7 +19,7 @@ maven3Install = mavenPlugin.installations.find {
 if(maven3Install == null) {
    println("No Maven install found. Adding...")
 
-   newMavenInstall = new hudson.tasks.Maven.MavenInstallation('maven', null,
+   newMavenInstall = new hudson.tasks.Maven.MavenInstallation('Maven', null,
     [new hudson.tools.InstallSourceProperty([new hudson.tasks.Maven.MavenInstaller(mavenVersion)])]
 )
 
