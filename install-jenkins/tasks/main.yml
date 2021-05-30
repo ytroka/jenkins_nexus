@@ -19,6 +19,12 @@
     dest: "/opt/jenkins"
     mode: '0644' 
 
+- name: Copy jenkins-cli.jar
+  copy:
+    src: jenkins-cli.jar
+    dest: "/opt/jenkins"
+    mode: '0755'
+
 - name: Create docker network
   shell: 'docker network create -d bridge --subnet=10.10.10.0/24 jenkins_nexus'
 
@@ -26,6 +32,25 @@
 - name: Start jenkins
   shell: 'docker-compose -f /opt/jenkins/docker-compose.yml up -d'
   register: out
+
+- name: Wait for start Jenkins
+  wait_for: timeout=30
+
+- name: Add nexus plugin
+  shell: 'docker exec jenkins java -jar /var/jenkins_home/jenkins-cli.jar -s http://localhost:8080/ install-plugin nexus-artifact-uploader:2.13'
+
+- name: Add pipeline plugin
+  shell: 'docker exec jenkins java -jar /var/jenkins_home/jenkins-cli.jar -s http://localhost:8080/ install-plugin pipeline-stage-view:2.19'
+
+- name: Add workflow plugin
+  shell: 'docker exec jenkins java -jar /var/jenkins_home/jenkins-cli.jar -s http://localhost:8080/ install-plugin workflow-aggregator:2.6'
+
+
+- name: Add pipeline plugin
+  shell: 'docker exec jenkins java -jar /var/jenkins_home/jenkins-cli.jar -s http://localhost:8080/ install-plugin pipeline-utility-steps:2.8.0 -restart'
+
+
+
   
 
   
