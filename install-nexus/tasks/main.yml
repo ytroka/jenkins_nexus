@@ -1,2 +1,23 @@
 ---
 # tasks file for install-nexus
+
+- name: Create nexus directory
+  file:
+    state: directory
+    path: '/opt/nexus'
+    mode: '0755'
+
+- name: Create nexus data directory
+  file:
+    state: directory
+    path: '/opt/nexus/nexus-data'
+    mode: '0755'
+
+- name: Copy docker-compose.yml
+  copy:
+    src: docker-compose.yml
+    dest: '/opt/nexus'
+    mode: '0644'
+
+- name: Start nexus
+  shell: 'docker-compose -f /opt/nexus/docker-compose.yml up -d'

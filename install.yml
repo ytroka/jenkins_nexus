@@ -6,5 +6,6 @@
 
 
   roles:
-#    - install_docker
-    - install_jenkins
+#    - install-docker
+    - install-jenkins
+#     - install-nexus
