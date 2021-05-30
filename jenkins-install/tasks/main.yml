@@ -28,7 +28,7 @@
 - name: Copy jenkins-cli.jar
   copy:
     src: jenkins-cli.jar
-    dest: '/opt/jenkins'
+    dest: '/opt/jenkins/jenkins-data'
     mode: '0755'
 
 - name: Copy groovy file for install maven
