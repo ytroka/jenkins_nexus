@@ -16,7 +16,7 @@
 - name: Create jenkins init directory
   file:
     state: directory
-    path: '/opt/jenkins/init.groovy.d'
+    path: '/opt/jenkins/jenkins-data/init.groovy.d'
     mode: '0644'
 
 - name: Copy docker-compose.yml
@@ -34,7 +34,7 @@
 - name: Copy groovy file for install maven
   copy:
     src: maven-install.groovy
-    dest: '/opt/jenkins'
+    dest: '/opt/jenkins/jenkins-data/init.groovy.d'
 
 - name: Create docker network
   shell: 'docker network create -d bridge --subnet=10.10.10.0/24 jenkins_nexus'
