@@ -75,8 +75,10 @@
   uri:
     url: http://localhost:8080/credentials/store/system/domain/_/createCredentials
     method: POST
-    src: credentials.json
-    
+    body_format: json
+    body: '{"": "0","credentials": {"scope": "GLOBAL","id": "Anonymous","username": "Anonymous","password": "","description": "linda","$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"}}' 
+        
+ 
 - name: Create job configuration
   uri:
     url: http://localhost:8080/createItem?name=jenkins-nexus
