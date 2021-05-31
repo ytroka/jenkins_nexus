@@ -19,5 +19,8 @@
     dest: '/opt/nexus'
     mode: '0644'
 
+- name: Create docker network
+  shell: 'docker network create -d bridge --subnet=10.10.10.0/24 jenkins_nexus'
+
 - name: Start nexus
   shell: 'docker-compose -f /opt/nexus/docker-compose.yml up -d'

@@ -46,9 +46,6 @@
     src: config.xml
     dest: '/opt/jenkins/'
 
-- name: Create docker network
-  shell: 'docker network create -d bridge --subnet=10.10.10.0/24 jenkins_nexus'
-
 - name: Start jenkins
   shell: 'docker-compose -f /opt/jenkins/docker-compose.yml up -d'
   register: out
@@ -73,6 +70,13 @@
 
 - name: Wait for restart Jenkins
   wait_for: timeout=30
+
+- name: Create credentials to nexus
+  uri:
+    url: http://localhost:8080/credentials/store/system/domain/_/createCredentials
+    method: POST
+    src: credentials.xml
+    
 
 - name: Create job configuration
   uri:
