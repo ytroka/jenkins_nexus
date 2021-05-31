@@ -75,9 +75,8 @@
   uri:
     url: http://localhost:8080/credentials/store/system/domain/_/createCredentials
     method: POST
-    src: credentials.xml
+    src: credentials.json
     
-
 - name: Create job configuration
   uri:
     url: http://localhost:8080/createItem?name=jenkins-nexus
