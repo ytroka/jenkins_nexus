@@ -8,8 +8,9 @@ services:
        - 80:80
        - 443:443
     volumes:
-       - ./ssl:/etc/nginx/
        - ./jenkins.conf:/etc/nginx/conf.d/jenkins.conf
+       - ./ssl/example.key:/etc/nginx/example.key
+       - ./ssl/example.crt:/etc/nginx/example.crt
     networks:
       - jenkins_nexus
 
