@@ -25,3 +25,7 @@
 
 - name: Generate a Self Signed OpenSSL certificate
   shell: 'openssl req -new -x509 -days 365 -nodes -out /opt/nginx/ssl/example.crt -keyout /opt/nginx/ssl/example.key  -subj "/C=ru/ST=msk/L=moscow/O=stand/OU=test/CN=*.example.org/emailAddress=example@example.org"'
+
+- name: Start nginx
+  shell: 'docker-compose -f /opt/nginx/docker-compose.yml up -d'
+  register: out
