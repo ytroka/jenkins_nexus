@@ -1,0 +1,27 @@
+---
+# tasks file for nginx-over-https
+
+- name: Create nginx  directory
+  file:
+    state: directory
+    path: '/opt/nginx'
+    mode: '0644'
+
+- name: Create ssl directory
+  file:
+    state: directory
+    path: '/opt/nginx/ssl'
+    mode: '0644'
+
+- name: Copy docker-compose.yml
+  copy:
+    src: docker-compose.yml
+    dest: '/opt/nginx'
+
+- name: Copy nginx config
+  copy:
+    src: jenkins.conf
+    dest: '/opt/nginx/'
+
+- name: Generate a Self Signed OpenSSL certificate
+  shell: 'openssl req -new -x509 -days 365 -nodes -out /opt/nginx/ssl/example.crt -keyout /opt/nginx/ssl/example.key  -subj "/C=ru/ST=msk/L=moscow/O=stand/OU=test/CN=*.example.org/emailAddress=example@example.org"'

@@ -79,7 +79,7 @@
   shell: 'docker exec jenkins java -jar /var/jenkins_home/jenkins-cli.jar -s http://localhost:8080/ install-plugin github-branch-source:2.10.4 -restart'
 
 - name: Wait for restart Jenkins
-  wait_for: timeout=30
+  wait_for: timeout=60
 
 - name: Change pass in file cretedials.sh
   shell: 'sh /opt/jenkins/change_pass.sh'
