@@ -25,7 +25,7 @@
         NEXUS_PROTOCOL = &quot;http&quot;
         NEXUS_URL = &quot;nexus:8081&quot;
         NEXUS_REPOSITORY = &quot;maven-snapshots&quot;
-        NEXUS_CREDENTIAL_ID = &quot;Anonymous&quot;
+        NEXUS_CREDENTIAL_ID = &quot;nexus&quot;
     }
     stages {
         stage(&quot;Clone code from VCS&quot;) {
