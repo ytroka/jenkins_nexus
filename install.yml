@@ -6,7 +6,7 @@
 
 
   roles:
-#    - docker-install
-#    - nexus-install 
-#    - jenkins-install
+    - docker-install
+    - nexus-install 
+    - jenkins-install
     - nginx-over-https
