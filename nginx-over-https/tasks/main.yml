@@ -29,3 +29,11 @@
 - name: Start nginx
   shell: 'docker-compose -f /opt/nginx/docker-compose.yml up -d'
   register: out
+
+- name: Add local loop in /etc/hosts
+  linefile:
+    dest: /etc/hosts
+    line: '{{ item }}'
+  with_items:
+     - '127.0.0.1 jenkins.example.org'
+     - '127.0.0.1 nexus.example.org'
