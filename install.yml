@@ -1,12 +1,23 @@
 ---
-- name: Publish artifacts
+- name: Install jenkins+nexus
   gather_facts: No
-  hosts: all
+  hosts: remote
   become: yes
-
-
   roles:
     - docker-install
     - nexus-install 
     - jenkins-install
     - nginx-over-https
+
+- name: Add websites in /etc/hosts
+  gather_facts: No
+  hosts: localhost
+  become: yes
+  tasks:
+   - name: Change file hosts
+     lineinfile:
+       dest: /etc/hosts
+       line: '{{ item }}'
+     with_items:
+       - '{{ hostvars.myserver.ansible_host }} jenkins.example.com'
+       - '{{ hostvars.myserver.ansible_host }} nexus.example.com'
