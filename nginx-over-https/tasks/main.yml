@@ -24,7 +24,7 @@
     dest: '/opt/nginx/'
 
 - name: Generate a Self Signed OpenSSL certificate
-  shell: 'openssl req -new -x509 -days 365 -nodes -out /opt/nginx/ssl/example.crt -keyout /opt/nginx/ssl/example.key  -subj "/C=ru/ST=msk/L=moscow/O=stand/OU=test/CN=*.example.org/emailAddress=example@example.org"'
+  shell: 'openssl req -new -x509 -days 365 -nodes -out /opt/nginx/ssl/example.crt -keyout /opt/nginx/ssl/example.key  -subj "/C=ru/ST=msk/L=moscow/O=stand/OU=test/CN=*.example.org/emailAddress=example@example.com"'
 
 - name: Start nginx
   shell: 'docker-compose -f /opt/nginx/docker-compose.yml up -d'
@@ -35,5 +35,5 @@
     dest: /etc/hosts
     line: '{{ item }}'
   with_items:
-     - '127.0.0.1 jenkins.example.org'
-     - '127.0.0.1 nexus.example.org'
+     - '127.0.0.1 jenkins.example.com'
+     - '127.0.0.1 nexus.example.com'
